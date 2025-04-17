@@ -11,7 +11,8 @@ int main(int argc,char *argv[])
   while(i<argc){
     fp=fopen(argv[i],"r");
     if (fp == NULL) {
-      printf("fdisp : Error opening file %s (make sure the name is correct with extension)\n",argv[i]);
+      perror(argv[i]);
+      fprintf(stderr,"(make sure the name is correct with extension or you are in correct directory)\n");
       i++;
       continue;
     }
