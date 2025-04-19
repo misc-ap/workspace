@@ -25,10 +25,14 @@ int main()
   xy[x][y]=1;
   while(1){
     clear();
-    printf("\033[48;2;255;168;0m\033[38;2;0;0;0m");
     for(int i=0;i<n;i++){
-      for(int j=0;j<n;j++){
-        printf("%d ",xy[i][j]);
+      printf(" ");
+        for (int j = 0; j < n; j++) {
+          if (xy[i][j] == 1) {
+            printf("\033[48;2;0;200;200m\033[38;2;255;255;255m\033[1m[1]\033[0m ");
+          }else{
+            printf("\033[38;2;100;100;100m[.]\033[0m ");
+          }
       }
       printf("\n");
     }
