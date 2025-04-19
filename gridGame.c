@@ -1,6 +1,6 @@
 #include<stdio.h>
 void clear(){
-   printf("\033[H\033[J");
+   printf("\033[2J\033[H");
 }
 
 void swap(int *a,int *b){
@@ -11,6 +11,7 @@ void swap(int *a,int *b){
 
 int main()
 {
+  
   int n,q=0;
   char b;
   printf("Enter size : ");
@@ -24,12 +25,14 @@ int main()
   xy[x][y]=1;
   while(1){
     clear();
+    printf("\033[48;2;255;168;0m\033[38;2;0;0;0m");
     for(int i=0;i<n;i++){
       for(int j=0;j<n;j++){
         printf("%d ",xy[i][j]);
       }
       printf("\n");
     }
+    printf("\033[0m");
     scanf(" %c",&b);
     switch(b){
      case 'w':
@@ -60,8 +63,7 @@ int main()
         q=1;
     }
     if(q){break;}
-    printf("completed switch");
   }
-  
+  clear();
   return 0;
 }
