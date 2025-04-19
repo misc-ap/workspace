@@ -33,6 +33,7 @@ int main()
       printf("\n");
     }
     printf("\033[0m");
+    printf("Use /W/A/S/D to move, any other key to quit: ");
     scanf(" %c",&b);
     switch(b){
      case 'w':
