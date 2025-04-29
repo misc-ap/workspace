@@ -1,2 +1,2 @@
 # workspace
-test
+For fun
