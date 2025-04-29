@@ -3,8 +3,24 @@ int main(int argc, char *argv[])
 {
   if (argc < 2)
   {
-    printf("No argument provided!\n");
+    printf("No argument provided!(use -h for help)\n");
     return 1;
+  }
+  int j = 1;
+  while (argc > j && argv[j][0] == '-')
+  {
+    if (argv[1][1] == 'h')
+    {
+      printf("+ Usage: fdisp <file1> <file2> ...\n+ fdisp -h for help\n");
+      printf("This program reads the contents of the specified files and prints them to the standard output.\n");
+      return 0;
+    }
+    else
+    {
+      printf("Invalid option: %s\n", argv[1]);
+      return 1;
+    }
+    j++;
   }
   FILE *fp;
   char ch;
