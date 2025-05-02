@@ -14,7 +14,6 @@ void swap(int *a, int *b)
 
 int main()
 {
-
   int n, q = 0;
   char b;
   printf("Enter size : ");
@@ -50,6 +49,7 @@ int main()
     printf("\033[0m");
     printf("Use /W/A/S/D to move, any other key to quit: ");
     scanf(" %c", &b);
+    printf("\n");
     switch (b)
     {
     case 'w':
