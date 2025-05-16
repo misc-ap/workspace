@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      printf("\x1b[31mInvalid option: %s\x1b[0m\n", argv[1]);
+      printf("\x1b[31mInvalid option: %s (use -h for help)\x1b[0m\n", argv[1]);
       return 1;
     }
     j++;
