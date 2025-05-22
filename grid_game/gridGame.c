@@ -3,6 +3,7 @@
 void clear()
 {
   system("clear");
+  printf("\033[8;26;101t");
 }
 
 void swap(int *a, int *b)
@@ -14,14 +15,12 @@ void swap(int *a, int *b)
 
 int main()
 {
-  int n, q = 0;
+  int r = 24, c = 50, q = 0;
   char b;
-  printf("Enter size : ");
-  scanf("%d", &n);
-  int xy[n][n], x = n / 2, y = n / 2;
-  for (int i = 0; i < n; i++)
+  int xy[25][90], x = 0, y = 0;
+  for (int i = 0; i < r; i++)
   {
-    for (int j = 0; j < n; j++)
+    for (int j = 0; j < c; j++)
     {
       xy[i][j] = 0;
     }
@@ -30,10 +29,10 @@ int main()
   while (1)
   {
     clear();
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < r; i++)
     {
       printf(" ");
-      for (int j = 0; j < n; j++)
+      for (int j = 0; j < c; j++)
       {
         if (xy[i][j] == 1)
         {
@@ -60,7 +59,7 @@ int main()
       }
       break;
     case 's':
-      if (x < n - 1)
+      if (x < r - 1)
       {
         swap(&xy[x][y], &xy[x + 1][y]);
         x++;
@@ -74,7 +73,7 @@ int main()
       }
       break;
     case 'd':
-      if (y < n - 1)
+      if (y < c - 1)
       {
         swap(&xy[x][y], &xy[x][y + 1]);
         y++;
