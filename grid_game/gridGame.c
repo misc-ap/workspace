@@ -3,7 +3,7 @@
 void clear()
 {
   system("clear");
-  printf("\033[8;26;101t");
+  printf("\033[8;26;101t"); // in case terminal is resized
 }
 
 void swap(int *a, int *b)
@@ -15,6 +15,7 @@ void swap(int *a, int *b)
 
 int main()
 {
+  printf("\033]2;GRID GAME\007");
   int r = 24, c = 50, q = 0;
   char b;
   int xy[25][90], x = 0, y = 0;
