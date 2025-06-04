@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-void clear()
-{
-  system("clear");
-  printf("\033[8;26;101t"); // in case terminal is resized
-}
+
 
 void swap(int *a, int *b)
 {
@@ -29,7 +25,8 @@ int main()
   xy[x][y] = 1;
   while (1)
   {
-    clear();
+    system("clear");
+    printf("\033[8;26;101t"); // in case terminal is resized
     for (int i = 0; i < r; i++)
     {
       printf(" ");
@@ -88,6 +85,6 @@ int main()
       break;
     }
   }
-  clear();
+  system("clear");
   return 0;
 }
