@@ -37,8 +37,7 @@ int main()
         {
           system("clear");
           printf("\033[1;32mCongratulations! You reached the goal!★\033[0m\n");
-          printf("Press any key to exit...\n");
-          getchar(); 
+          printf("Press any 'enter' to exit...");
           getchar();
           return 0;
         }
@@ -48,7 +47,7 @@ int main()
         }
         else if (xy[i][j] == 2)
         {
-          printf("\033[48;2;60;179;113m\033[38;2;0;128;128m\033[1m◉ \033[0m");
+          printf("\033[5m\033[48;2;60;179;113m\033[38;2;0;0;128m\033[1m◉ \033[0m");
         }
         else
         {
