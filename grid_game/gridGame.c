@@ -37,7 +37,8 @@ int main()
         {
           system("clear");
           printf("\033[1;32mCongratulations! You reached the goal!★\033[0m\n");
-          printf("Press any 'enter' to exit...");
+          printf("Press 'enter' to exit...");
+          getchar();
           getchar();
           return 0;
         }
