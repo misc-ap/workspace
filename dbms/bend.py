@@ -126,7 +126,9 @@ def col_types(tbl_name):  # return list of column types or 0 if no columns
         return types
 
 
-def frametbl(ctl, cnl):  # creates a frame(horizontal) for the table display
+def frametbl(
+    ctl, cnl
+):  # creates a frame(horizontal) for the table display, ctl-column type list, cnl-column name list
     print("", end="+")
     for ct, cn in zip(ctl, cnl):
         if ct == "INTEGER":
@@ -171,6 +173,7 @@ def add_rto():
 
 def add_driving_license():  # 2
     global msg
+    date_now=f"{datetime.now().year}-{datetime.now().month}-{datetime.now().day}"
     dl_no = input("Enter Driving License number: ").strip()
     cov = (
         input("Enter Class of Vehicle (MCWG, MCWOG, LMV, HMV, MGV, HGV): ")
@@ -179,8 +182,8 @@ def add_driving_license():  # 2
     )
     issue_date = input("Enter Issue Date (YYYY-MM-DD): ").strip()
     expiry_date = input("Enter Expiry Date (YYYY-MM-DD): ").strip()
-    status = input("Enter Status (valid/expired): ").strip().lower()
-    if not (dl_no and cov and issue_date and expiry_date and status):
+    # status = input("Enter Status (valid/expired): ").strip().lower()
+    if not (dl_no and cov and issue_date and expiry_date):
         print("All fields are required.")
         msg = "FAILURE: Driving License not added"
         return
@@ -190,13 +193,17 @@ def add_driving_license():  # 2
         )
         msg = "FAILURE: Driving License not added"
         return
-    if status.lower() not in ("valid", "expired"):
-        print("Invalid status. Must be 'valid' or 'expired'.")
-        msg = "FAILURE: Driving License not added"
-        return
+    if expiry_date > date_now:
+        status = "valid"
+    else:
+        status = "expired"
+    # if status.lower() not in ("valid", "expired"):
+    #     print("Invalid status. Must be 'valid' or 'expired'.")
+    #     msg = "FAILURE: Driving License not added"
+    #     return
     cur.execute(
         "INSERT INTO driving_license (dl_no, cov, issue_date, expiry_date, status) VALUES (?, ?, ?, ?, ?)",
-        (dl_no, cov, issue_date, expiry_date, status.lower()),
+        (dl_no, cov, issue_date, expiry_date, status),
     )
     con.commit()
     print("Driving License added successfully.")
@@ -209,7 +216,7 @@ def add_vehicle():  # 3
     veh_type = input("Enter Vehicle Type (e.g., Car, Bike, Truck): ").strip()
     manufacturer = input("Enter Manufacturer: ").strip()
     model = input("Enter Model: ").strip()
-    year = input("Enter Year of Manufacture (e.g., 2020): ").strip()
+    year = input("Enter Year of Manufacture : ").strip()
     engine_no = input("Enter Engine Number: ").strip()
     chassis_no = input("Enter Chassis Number: ").strip()
     owner_id = input("Enter Owner ID: ").strip()
