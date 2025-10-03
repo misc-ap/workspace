@@ -1,20 +1,21 @@
 import sqlite3
 from datetime import datetime
-import os
 
+cur_name=""
+def db_name(dbname):
+    global cur_name
+    cur_name=dbname
+con = sqlite3.connect(cur_name)
+cur = con.cursor()
 
 ###########################################################################################
 # initialization
 def initialize_db():
-    con = sqlite3.connect("rvms.db")
-    cur = con.cursor()
-
+    
     cur.execute("PRAGMA foreign_keys = ON")
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS rto (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        location TEXT NOT NULL,
+        location TEXT NOT NULL PRIMARY KEY UNIQUE,
         phone_no TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE
     )
@@ -26,7 +27,7 @@ def initialize_db():
         cov TEXT NOT NULL,
         issue_date TEXT NOT NULL,
         expiry_date TEXT NOT NULL,
-        status TEXT NOT NULL CHECK (status IN ('valid', 'expired'))
+        status TEXT NOT NULL 
     )
     """)
 
@@ -36,13 +37,12 @@ def initialize_db():
         veh_name TEXT NOT NULL,
         veh_type TEXT NOT NULL,
         manufacturer TEXT NOT NULL,
-        model TEXT NOT NULL,
+        model TEXT NOT NULL,con.close()
         year INTEGER NOT NULL,
         engine_no TEXT NOT NULL UNIQUE,
         chassis_no TEXT NOT NULL UNIQUE,
         owner_id TEXT NOT NULL,
-        FOREIGN KEY (owner_id) REFERENCES owner(id)
-        
+        FOREIGN KEY (owner_id) REFERENCES owner(id) ON UPDATE CASCADE
     )
     """)
 
@@ -50,7 +50,7 @@ def initialize_db():
     CREATE TABLE IF NOT EXISTS owner (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        age INTEGER NOT NULL CHECK (age > 17),
+        age INTEGER NOT NULL,
         address TEXT NOT NULL,
         pincode TEXT NOT NULL,
         phone TEXT NOT NULL UNIQUE,
@@ -68,7 +68,7 @@ def initialize_db():
         start_date TEXT NOT NULL,
         end_date TEXT NOT NULL,
         veh_id INTEGER NOT NULL,
-        status TEXT NOT NULL CHECK (status IN ('active', 'expired')),
+        status TEXT NOT NULL,
         FOREIGN KEY (veh_id) REFERENCES vehicle(id) ON DELETE CASCADE ON UPDATE CASCADE
     )            
     """)
@@ -82,12 +82,12 @@ def initialize_db():
         reg_date TEXT NOT NULL,
         status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
         FOREIGN KEY (veh_id) REFERENCES vehicle(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (rto_id) REFERENCES rto(id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (rto_id) REFERENCES rto(id) ON UPDATE CASCADE
     )
     """)
 
     con.commit()
-    con.close()
+    
 
 
 ###########################################################################################
@@ -371,53 +371,54 @@ def view_table():  # 7
         print("|")
     frametbl(ctl, cnl)
 
+con.close()
 
 ###########################################################################################
 
 ### Main program starts here
-initialize_db()
-msg = "program initialized"
-con = sqlite3.connect("rvms.db")
-cur = con.cursor()
-while True:
-    os.system("cls" if os.name == "nt" else "clear")
-    print(f"♦ Tracking message: {msg} @ {datetime.now():%H:%M:%S}")
-    print("""Welcome to the RVMS (Road Vehicle Management System)!
-    Please choose an option:
-        1. Add RTO\t\t2. Add Driving License
-        3. Add Vehicle\t\t4. Add Owner
-        5. Add Insurance\t6. Add Registration
-        7. View tables
-        99. Exit
-          """)
-    op = input("Enter your choice: ")
-    if op == "1":
-        add_rto()
-        input("Press Enter to continue...")
-    elif op == "2":
-        add_driving_license()
-        input("Press Enter to continue...")
-    elif op == "3":
-        add_vehicle()
-        input("Press Enter to continue...")
-    elif op == "4":
-        add_owner()
-        input("Press Enter to continue...")
-    elif op == "5":
-        add_insurance()
-        input("Press Enter to continue...")
-    elif op == "6":
-        add_registration()
-        input("Press Enter to continue...")
-    elif op == "7":
-        view_table()
-        input("Press Enter to continue...")
-    elif op == "99":
-        print("Exiting the program. Goodbye!")
-        con.close()
-        break
-    else:
-        print("Invalid option. Please try again.")
-        input("Press Enter to continue...")
+# initialize_db()
+# msg = "program initialized"
+# con = sqlite3.connect("rvms.db")
+# cur = con.cursor()
+# while True:
+#     os.system("cls" if os.name == "nt" else "clear")
+#     print(f"♦ Tracking message: {msg} @ {datetime.now():%H:%M:%S}")
+#     print("""Welcome to the RVMS (Road Vehicle Management System)!
+#     Please choose an option:
+#         1. Add RTO\t\t2. Add Driving License
+#         3. Add Vehicle\t\t4. Add Owner
+#         5. Add Insurance\t6. Add Registration
+#         7. View tables
+#         99. Exit
+#           """)
+#     op = input("Enter your choice: ")
+#     if op == "1":
+#         add_rto()
+#         input("Press Enter to continue...")
+#     elif op == "2":
+#         add_driving_license()
+#         input("Press Enter to continue...")
+#     elif op == "3":
+#         add_vehicle()
+#         input("Press Enter to continue...")
+#     elif op == "4":
+#         add_owner()
+#         input("Press Enter to continue...")
+#     elif op == "5":
+#         add_insurance()
+#         input("Press Enter to continue...")
+#     elif op == "6":
+#         add_registration()
+#         input("Press Enter to continue...")
+#     elif op == "7":
+#         view_table()
+#         input("Press Enter to continue...")
+#     elif op == "99":
+#         print("Exiting the program. Goodbye!")
+#         con.close()
+#         break
+#     else:
+#         print("Invalid option. Please try again.")
+#         input("Press Enter to continue...")
 
-con.close()
+# con.close()
