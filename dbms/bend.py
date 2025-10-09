@@ -3,7 +3,6 @@ from datetime import datetime
 import os
 
 
-
 ###########################################################################################
 # initialization
 def initialize_db():
@@ -22,8 +21,8 @@ def initialize_db():
     CREATE TABLE IF NOT EXISTS driving_license (
         dl_no TEXT NOT NULL UNIQUE PRIMARY KEY,
         cov TEXT NOT NULL,
-        issue_date TEXT NOT NULL,
-        expiry_date TEXT NOT NULL,
+        issue_date DATE NOT NULL,
+        expiry_date DATE NOT NULL,
         status TEXT NOT NULL 
     )
     """)
@@ -42,7 +41,7 @@ def initialize_db():
         FOREIGN KEY (owner_id) REFERENCES owner(id) ON UPDATE CASCADE
     )
     """)
-
+    # need to disolve address
     cur.execute("""
     CREATE TABLE IF NOT EXISTS owner (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,11 +58,10 @@ def initialize_db():
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS insurance (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        policy_no TEXT NOT NULL UNIQUE PRIMARY KEY,
         provider TEXT NOT NULL,
-        policy_no TEXT NOT NULL UNIQUE,
-        start_date TEXT NOT NULL,
-        end_date TEXT NOT NULL,
+        start_date DATE NOT NULL,
+        end_date DATE NOT NULL,
         veh_id INTEGER NOT NULL,
         status TEXT NOT NULL,
         FOREIGN KEY (veh_id) REFERENCES vehicle(id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -76,8 +74,8 @@ def initialize_db():
         reg_no TEXT NOT NULL UNIQUE,
         veh_id INTEGER NOT NULL,
         rto_id INTEGER NOT NULL,
-        reg_date TEXT NOT NULL,
-        status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
+        reg_date DATE NOT NULL,
+        status TEXT NOT NULL,
         FOREIGN KEY (veh_id) REFERENCES vehicle(id) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (rto_id) REFERENCES rto(id) ON UPDATE CASCADE
     )
@@ -85,7 +83,6 @@ def initialize_db():
 
     con.commit()
     con.close()
-    
 
 
 ###########################################################################################
@@ -171,7 +168,7 @@ def add_rto():
 
 def add_driving_license():  # 2
     global msg
-    date_now=f"{datetime.now().year}-{datetime.now().month}-{datetime.now().day}"
+    date_now = f"{datetime.now().year}-{datetime.now().month}-{datetime.now().day}"
     dl_no = input("Enter Driving License number: ").strip()
     cov = (
         input("Enter Class of Vehicle (MCWG, MCWOG, LMV, HMV, MGV, HGV): ")
