@@ -11,7 +11,8 @@ def initialize_db():
     cur.execute("PRAGMA foreign_keys = ON")
     cur.execute("""
     CREATE TABLE IF NOT EXISTS rto (
-        location TEXT NOT NULL PRIMARY KEY UNIQUE,
+        rto_no INTEGER PRIMARY KEY UNIQUE,
+        location TEXT NOT NULL,
         phone_no TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE
     )
@@ -33,7 +34,7 @@ def initialize_db():
         veh_name TEXT NOT NULL,
         veh_type TEXT NOT NULL,
         manufacturer TEXT NOT NULL,
-        model TEXT NOT NULL,con.close()
+        model TEXT NOT NULL,
         year INTEGER NOT NULL,
         engine_no TEXT NOT NULL UNIQUE,
         chassis_no TEXT NOT NULL UNIQUE,
@@ -73,11 +74,11 @@ def initialize_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         reg_no TEXT NOT NULL UNIQUE,
         veh_id INTEGER NOT NULL,
-        rto_id INTEGER NOT NULL,
+        rto_no INTEGER NOT NULL,
         reg_date DATE NOT NULL,
         status TEXT NOT NULL,
         FOREIGN KEY (veh_id) REFERENCES vehicle(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (rto_id) REFERENCES rto(id) ON UPDATE CASCADE
+        FOREIGN KEY (rto_no) REFERENCES rto(rto_no) ON UPDATE CASCADE
     )
     """)
 
@@ -141,10 +142,11 @@ def frametbl(
 # functions
 def add_rto():
     global msg
-    location = input("Enter RTO location: ").strip()
-    phone_no = input("Enter RTO phone number: ").strip()
-    email = input("Enter RTO email: ").strip()
-    if not (location and phone_no and email):
+    rto_no=input("Enter rto number : ")
+    location = input("Enter RTO location : ").strip()
+    phone_no = input("Enter RTO phone number : ").strip()
+    email = input("Enter RTO email : ").strip()
+    if not (rto_no and location and phone_no and email):
         print("All fields are required.")
         msg = "FAILURE: RTO not added"
         return
@@ -156,10 +158,10 @@ def add_rto():
         print("Invalid email format.")
         msg = "FAILURE: RTO not added"
         return
-
+    
     cur.execute(
-        "INSERT INTO rto (location, phone_no, email) VALUES (?, ?, ?)",
-        (location, phone_no, email),
+        "INSERT INTO rto (rto_no,location, phone_no, email) VALUES (?,?, ?, ?)",
+        (rto_no,location, phone_no, email),
     )
     con.commit()
     print("RTO added successfully.")

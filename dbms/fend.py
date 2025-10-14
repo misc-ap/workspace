@@ -5,7 +5,7 @@ import tkinter as tk
 m = tk.Tk()
 m.title("Road vehicle managment system")
 icon = tk.PhotoImage(
-    file='gg.png'
+    file='pics/Default_pfp.png'
 )
 m.iconphoto(True, icon)
 m.geometry("1280x720")
